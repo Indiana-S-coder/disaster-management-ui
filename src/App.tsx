@@ -12,6 +12,8 @@ interface Disaster {
   id: string;
   title: string;
   description: string;
+  location_name?: string;
+  tags: string[];
   location: {
     coordinates: [number, number]; // [longitude, latitude]
   };

@@ -15,10 +15,21 @@ const getAuthHeaders = (userId: string) => ({
 // Socket.io connection
 export const socket = io(API_URL);
 
+// types/disaster.ts
+export interface Disaster {
+  id: string;
+  title: string;
+  description: string;
+  location_name?: string;
+  tags: string[];
+}
+
+export type DisasterPayload = Omit<Disaster, "id">; // for create/update
+
 // Disaster endpoints
-export const createDisaster = (data: any, userId: string) => api.post('/disasters', data, getAuthHeaders(userId));
+export const createDisaster = (data: DisasterPayload, userId: string) => api.post('/disasters', data, getAuthHeaders(userId));
   
-export const updateDisaster = (id: string, data: any, userId: string) => api.put(`/disasters/${id}`, data, getAuthHeaders(userId));
+export const updateDisaster = (id: string, data: DisasterPayload, userId: string) => api.put(`/disasters/${id}`, data, getAuthHeaders(userId));
   
 export const deleteDisaster = (id: string, userId: string) => api.delete(`/disasters/${id}`, getAuthHeaders(userId));
 

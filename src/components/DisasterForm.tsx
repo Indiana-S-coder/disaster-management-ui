@@ -1,8 +1,15 @@
 import React, { useState } from 'react';
 import { createDisaster, updateDisaster } from '../api';
 
+interface Disaster {
+  id?: string;
+  title: string;
+  description: string;
+  location_name?: string;
+  tags: string[];
+}
 interface DisasterFormProps {
-  disaster?: any;
+  disaster?: Disaster;
   onSuccess: () => void;
 }
 
@@ -18,14 +25,14 @@ const DisasterForm: React.FC<DisasterFormProps> = ({ disaster, onSuccess }) => {
       title,
       description,
       location_name: locationName,
-      tags: tags.split(',').map(tag => tag.trim()),
+      tags: tags.split(',').map((tag: string) => tag.trim()),
       // Mock user
     };
     const userId = 'netrunnerX'; 
 
     try {
       if (disaster) {
-        await updateDisaster(disaster.id, disasterData, userId);
+        await updateDisaster(disaster.id!, disasterData, userId);
       } else {
         await createDisaster(disasterData, userId);
       }

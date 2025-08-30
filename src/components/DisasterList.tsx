@@ -1,9 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { getDisasters, deleteDisaster, socket } from '../api';
 
+interface Disaster {
+    id: string;
+    title: string;
+    description: string;
+    location_name?: string;
+    tags: string[];
+    location: {
+        coordinates: [number, number]; // [longitude, latitude]
+      };
+  }
 // Define a more specific type for the props
 interface DisasterListProps {
-    onSelectDisaster: (disaster: any) => void;
+    onSelectDisaster: (disaster: Disaster) => void;
     refreshTrigger: boolean;
     selectedDisasterId?: string | null;
 }
@@ -13,7 +23,7 @@ const DisastersList: React.FC<DisasterListProps> = ({
     refreshTrigger, 
     selectedDisasterId 
 }) => {
-  const [disasters, setDisasters] = useState<any[]>([]);
+  const [disasters, setDisasters] = useState<Disaster[]>([]);
 
   const fetchDisasters = async () => {
     try {
