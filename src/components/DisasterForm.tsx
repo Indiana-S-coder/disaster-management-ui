@@ -3,9 +3,10 @@ import { createDisaster, updateDisaster } from '../api';
 
 interface DisasterFormProps {
   disaster?: any;
+  onSuccess: () => void;
 }
 
-const DisasterForm: React.FC<DisasterFormProps> = ({ disaster }) => {
+const DisasterForm: React.FC<DisasterFormProps> = ({ disaster, onSuccess }) => {
   const [title, setTitle] = useState(disaster?.title || '');
   const [description, setDescription] = useState(disaster?.description || '');
   const [locationName, setLocationName] = useState(disaster?.location_name || '');
@@ -28,6 +29,7 @@ const DisasterForm: React.FC<DisasterFormProps> = ({ disaster }) => {
       } else {
         await createDisaster(disasterData, userId);
       }
+      onSuccess();
 
     } catch (error) {
       console.error('Failed to save disaster', error);
